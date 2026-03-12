@@ -187,7 +187,7 @@ async function doLookup(name) {
 
 // Returns true when the invite-list name is a placeholder like "Satchel Moberg's Guest"
 function isGuestSlot(name) {
-    return /['']s Guest$/i.test(name);
+    return /guest$/i.test(name.trim());
 }
 
 // ---- Step 2: Party selected — build guest cards ----
