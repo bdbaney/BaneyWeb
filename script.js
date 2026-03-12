@@ -185,6 +185,11 @@ async function doLookup(name) {
     }
 }
 
+// Returns true when the invite-list name is a placeholder like "Satchel Moberg's Guest"
+function isGuestSlot(name) {
+    return /['']s Guest$/i.test(name);
+}
+
 // ---- Step 2: Party selected — build guest cards ----
 
 function selectParty(party) {
@@ -198,6 +203,11 @@ function selectParty(party) {
                 <button type="button" class="attend-btn accept active" data-idx="${idx}" data-val="true">Accept</button>
                 <button type="button" class="attend-btn decline"       data-idx="${idx}" data-val="false">Decline</button>
             </div>
+            ${isGuestSlot(guest.name) ? `
+            <div class="form-group guest-name-group">
+                <label>Guest Name</label>
+                <input type="text" class="guest-name-input" placeholder="Enter guest's name" data-idx="${idx}">
+            </div>` : ''}
             <div class="form-group dietary-group">
                 <label>Dietary Restrictions</label>
                 <input type="text" class="dietary-input" placeholder="None" data-idx="${idx}">
@@ -238,11 +248,15 @@ document.getElementById('rsvp-submit-btn').addEventListener('click', async () =>
     }
 
     const guests = Array.from(document.querySelectorAll('.guest-card')).map(card => {
-        const idx       = parseInt(card.dataset.idx);
-        const activeBtn = card.querySelector('.attend-btn.active');
-        const dietary   = card.querySelector('.dietary-input').value.trim();
+        const idx           = parseInt(card.dataset.idx);
+        const activeBtn     = card.querySelector('.attend-btn.active');
+        const dietary       = card.querySelector('.dietary-input').value.trim();
+        const nameInput     = card.querySelector('.guest-name-input');
+        const resolvedName  = nameInput && nameInput.value.trim()
+            ? nameInput.value.trim()
+            : currentParty.guests[idx].name;
         return {
-            name:         currentParty.guests[idx].name,
+            name:         resolvedName,
             attending:    activeBtn ? activeBtn.dataset.val === 'true' : true,
             dietary,
             inviteListId: currentParty.guests[idx].id,

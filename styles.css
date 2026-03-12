@@ -776,6 +776,23 @@ h2 {
     color: var(--secondary-color);
 }
 
+.guest-name-group {
+    margin-bottom: 0.75rem;
+}
+
+.guest-name-group label {
+    font-size: 0.82rem;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.guest-name-group input {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--white);
+    border-color: var(--secondary-color);
+}
+
 .dietary-group {
     margin-bottom: 0;
 }
