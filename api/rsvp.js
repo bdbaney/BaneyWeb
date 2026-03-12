@@ -7,7 +7,7 @@ const supabase = createClient(
 
 // GET /api/rsvp?name=...
 // Searches invite_list by guest name (case-insensitive partial match).
-// Returns matching parties with all guests in each party.
+// Returns matching parties with ALL guests in each party (not just the match).
 async function lookupGuest(req, res) {
     const name = (req.query.name || '').trim();
 
@@ -15,12 +15,30 @@ async function lookupGuest(req, res) {
         return res.status(400).json({ success: false, message: 'Please enter at least 2 characters.' });
     }
 
+    // Step 1: find which parties have a guest matching the search term.
+    const { data: matches, error: matchError } = await supabase
+        .from('invite_list')
+        .select('party_name')
+        .ilike('guest_name', `%${name}%`);
+
+    if (matchError) {
+        console.error('Lookup error:', matchError);
+        return res.status(500).json({ success: false, message: 'Search failed. Please try again.' });
+    }
+
+    if (!matches || matches.length === 0) {
+        return res.json({ success: true, parties: [] });
+    }
+
+    const partyNames = [...new Set(matches.map(r => r.party_name))];
+
+    // Step 2: fetch every guest in those parties so the full party appears in the form.
     const { data, error } = await supabase
         .from('invite_list')
-        .select('id, party_name, guest_name, is_primary')
-        .ilike('guest_name', `%${name}%`)
+        .select('id, party_name, guest_name')
+        .in('party_name', partyNames)
         .order('party_name')
-        .order('is_primary', { ascending: false });
+        .order('guest_name');
 
     if (error) {
         console.error('Lookup error:', error);
@@ -36,7 +54,6 @@ async function lookupGuest(req, res) {
         partyMap[row.party_name].guests.push({
             id: row.id,
             name: row.guest_name,
-            isPrimary: row.is_primary,
         });
     }
 
