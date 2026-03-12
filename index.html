@@ -111,31 +111,46 @@
     <div id="rsvp-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>RSVP</h2>
-            <form id="rsvp-form">
+
+            <!-- Step 1: Name Lookup -->
+            <div id="rsvp-step-1" class="rsvp-step">
+                <h2>RSVP</h2>
+                <p class="rsvp-subtitle">Enter your name to find your invitation</p>
                 <div class="form-group">
-                    <label for="name">Full Name *</label>
-                    <input type="text" id="name" name="name" required>
+                    <label for="lookup-name">Your Name</label>
+                    <input type="text" id="lookup-name" placeholder="Start typing your name..." autocomplete="off">
                 </div>
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" name="email" required>
+                <div id="lookup-results"></div>
+            </div>
+
+            <!-- Step 2: Party RSVP -->
+            <div id="rsvp-step-2" class="rsvp-step" style="display:none;">
+                <button class="rsvp-back-btn" id="rsvp-back-btn">&#8592; Back</button>
+                <h2 id="party-name-heading"></h2>
+                <p class="rsvp-subtitle">Please fill in the details for each guest in your party</p>
+                <div id="guest-cards"></div>
+                <div class="rsvp-submitter-fields">
+                    <div class="form-group">
+                        <label for="rsvp-email">Your Email Address *</label>
+                        <input type="email" id="rsvp-email" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="rsvp-message">Message for the Couple (optional)</label>
+                        <textarea id="rsvp-message" rows="3" placeholder="Share a note with us..."></textarea>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="guests">Number of Guests *</label>
-                    <input type="number" id="guests" name="guests" min="1" max="10" required>
+                <button type="button" class="btn btn-primary rsvp-submit-btn" id="rsvp-submit-btn">Submit RSVP</button>
+                <div id="rsvp-form-message" class="form-message"></div>
+            </div>
+
+            <!-- Step 3: Confirmation -->
+            <div id="rsvp-step-3" class="rsvp-step" style="display:none;">
+                <div class="rsvp-confirmation">
+                    <div class="rsvp-confirmation-icon">&#10003;</div>
+                    <h2>You're All Set!</h2>
+                    <p id="rsvp-confirmation-msg"></p>
                 </div>
-                <div class="form-group">
-                    <label for="dietary">Dietary Restrictions</label>
-                    <textarea id="dietary" name="dietary" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message for the Couple</label>
-                    <textarea id="message" name="message" rows="4"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit RSVP</button>
-            </form>
-            <div id="form-message" class="form-message"></div>
+            </div>
         </div>
     </div>
 

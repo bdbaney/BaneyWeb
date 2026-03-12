@@ -614,6 +614,227 @@ h2 {
     opacity: 0.8;
 }
 
+/* ===== RSVP MULTI-STEP MODAL ===== */
+
+/* Make modal content taller-friendly */
+.modal-content {
+    max-height: 88vh;
+    overflow-y: auto;
+}
+
+.rsvp-subtitle {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-top: -0.5rem;
+    margin-bottom: 2rem;
+}
+
+.rsvp-back-btn {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s ease;
+    display: inline-block;
+}
+
+.rsvp-back-btn:hover {
+    color: var(--primary-color);
+}
+
+/* ===== LOOKUP RESULTS ===== */
+
+.lookup-searching {
+    color: var(--text-light);
+    font-style: italic;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+}
+
+.lookup-no-results {
+    background: var(--light-bg);
+    border-radius: 2px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.lookup-no-results p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+.lookup-no-results p:last-child {
+    margin-bottom: 0;
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.party-card {
+    border: 1.5px solid #e0e0e0;
+    border-radius: 2px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    background: var(--white);
+}
+
+.party-card:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.18);
+    transform: translateY(-1px);
+}
+
+.party-card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--primary-color);
+    margin-bottom: 0.6rem;
+}
+
+.party-card-guests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.party-guest-chip {
+    background: var(--light-bg);
+    color: var(--text-light);
+    font-size: 0.78rem;
+    padding: 0.2rem 0.75rem;
+    border-radius: 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* ===== GUEST CARDS ===== */
+
+.guest-card {
+    border: 1.5px solid #e0e0e0;
+    border-radius: 2px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    background: var(--light-bg);
+}
+
+.guest-card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 0.9rem;
+}
+
+/* ===== ATTEND TOGGLE ===== */
+
+.attend-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.attend-btn {
+    flex: 1;
+    padding: 0.6rem 0.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border: 1.5px solid #ddd;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    background: var(--white);
+    color: var(--text-light);
+}
+
+.attend-btn.accept.active {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--white);
+}
+
+.attend-btn.decline.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white);
+}
+
+.attend-btn:hover:not(.active) {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.dietary-group {
+    margin-bottom: 0;
+}
+
+.dietary-group label {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+.dietary-group input {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--white);
+}
+
+/* ===== SUBMITTER FIELDS ===== */
+
+.rsvp-submitter-fields {
+    border-top: 1px solid #e0e0e0;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+}
+
+.rsvp-submit-btn {
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+/* ===== CONFIRMATION STEP ===== */
+
+.rsvp-confirmation {
+    text-align: center;
+    padding: 2.5rem 1rem;
+}
+
+.rsvp-confirmation-icon {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: var(--white);
+    font-size: 2.2rem;
+    line-height: 68px;
+    margin: 0 auto 1.5rem;
+}
+
+.rsvp-confirmation h2 {
+    margin-bottom: 1rem;
+}
+
+.rsvp-confirmation p {
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 380px;
+    margin: 0 auto;
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 968px) {
     .content-wrapper {
