@@ -195,8 +195,8 @@ function selectParty(party) {
         <div class="guest-card" data-idx="${idx}">
             <span class="guest-card-name">${esc(guest.name)}</span>
             <div class="attend-toggle">
-                <button type="button" class="attend-btn accept active" data-idx="${idx}" data-val="true">Joyfully Accept</button>
-                <button type="button" class="attend-btn decline"       data-idx="${idx}" data-val="false">Regretfully Decline</button>
+                <button type="button" class="attend-btn accept active" data-idx="${idx}" data-val="true">Accept</button>
+                <button type="button" class="attend-btn decline"       data-idx="${idx}" data-val="false">Decline</button>
             </div>
             <div class="form-group dietary-group">
                 <label>Dietary Restrictions</label>
