@@ -118,10 +118,8 @@ async function submitRsvp(req, res) {
     let confirmMsg;
     if (attendingCount === 0) {
         confirmMsg = "We'll miss you! Thank you for letting us know.";
-    } else if (attendingCount === guests.length) {
-        confirmMsg = `Thank you! We're so excited to celebrate with ${attendingCount > 1 ? 'all ' + attendingCount + ' of you' : 'you'}!`;
     } else {
-        confirmMsg = `Thank you! We're excited to celebrate with ${attendingCount} of your party.`;
+        confirmMsg = "Thank you! We can't wait to celebrate with you!";
     }
 
     console.log(`RSVP submitted — party: "${partyName}", attending: ${attendingCount}/${guests.length}`);
