@@ -588,6 +588,34 @@ h2 {
     margin-top: 2rem;
 }
 
+.venmo-card {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.venmo-label {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.venmo-qr {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.venmo-handle {
+    font-size: 1rem;
+    color: var(--text-dark);
+    opacity: 0.7;
+    margin: 0;
+}
+
 /* ===== FOOTER ===== */
 .footer {
     background: var(--primary-color);
