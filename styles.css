@@ -277,6 +277,7 @@ h1, h2, h3 { margin: 0; }
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 104px 24px 92px;
 }
 .hero-bg {
     position: absolute;
@@ -347,6 +348,9 @@ h1, h2, h3 { margin: 0; }
     z-index: 2;
     color: var(--ivory);
     animation: cueBob 2.4s ease-in-out infinite;
+}
+@media (max-height: 760px) {
+    .scroll-cue { display: none; }
 }
 
 /* ============================================================
@@ -519,6 +523,32 @@ h1, h2, h3 { margin: 0; }
     font-style: italic;
     margin: 20px 0 0;
 }
+.card-intro {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: .95rem;
+    color: var(--navy-soft);
+    line-height: 1.7;
+    margin: -8px 0 20px;
+}
+.favorites-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+.favorites-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 1rem;
+    color: var(--navy-soft);
+    padding: 13px 0;
+    border-top: 1px solid #E7E4D9;
+}
+.favorites-list li:last-child { border-bottom: 1px solid #E7E4D9; }
+.favorites-bullet { color: var(--brass); font-size: .7rem; flex-shrink: 0; }
 .card-body {
     font-family: 'Hanken Grotesk', sans-serif;
     color: var(--navy-soft);
@@ -534,7 +564,6 @@ h1, h2, h3 { margin: 0; }
     text-transform: uppercase;
     color: var(--brass);
 }
-.card-link-muted { color: var(--muted); }
 
 .kv {
     font-family: 'Hanken Grotesk', sans-serif;

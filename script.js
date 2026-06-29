@@ -151,8 +151,8 @@ onScroll();
         { q: 'What time should I arrive?', a: 'The ceremony begins at 4:00 pm. Please plan to arrive by 3:45 pm so you can park, find a seat, and settle in before we begin.' },
         { q: 'What should I wear?', a: 'Semi-formal attire. Think cocktail dresses, dressy separates, suits, or a shirt and slacks. It is an outdoor-and-barn setting in the mountains in November, so bring a warm layer, and consider block heels rather than stilettos for grass and gravel.' },
         { q: 'Will it be indoors or outdoors?', a: 'The ceremony is planned outdoors, with the reception to follow inside the barn. We will keep an eye on the mountain forecast and have a comfortable backup plan if the weather turns.' },
-        { q: 'Where should we stay?', a: 'See the Travel & Stay section above for our hotel room block and ideas for making a weekend of it in West Jefferson, Boone, and Blowing Rock.' },
-        { q: 'Can I bring a guest or my kids?', a: 'Your invitation and RSVP will show exactly who is included in your party. If you see a "Guest" spot when you look up your name, you are welcome to bring a plus-one; just add their name when you RSVP.' },
+        { q: 'Where should we stay?', a: 'See the Travel & Stay section above for our hotel room block and a few of the places we love around Boone and West Jefferson.' },
+        { q: 'Can I bring a guest or my kids?', a: 'Your invitation and RSVP will show exactly who is included in your party, and we kindly ask that only those named are able to attend. If you see a "Guest" spot when you look up your name, you are welcome to bring a plus-one; just add their name when you RSVP. As much as we adore your little ones, we have planned an adults-only celebration, so please enjoy the evening as a night off.' },
         { q: 'How do I RSVP?', a: 'Click any RSVP button, search your name to pull up your party, and respond for each guest. Please reply as soon as you are able so we can finalize our headcount.' },
     ];
     const list = document.getElementById('faq-list');
