@@ -3,213 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Braden & Aaryn | November 7, 2026</title>
+    <title>Aaryn & Braden | November 7, 2026</title>
+    <meta name="description" content="Aaryn & Braden are getting married on November 7, 2026 at The Barn on New River, West Jefferson, NC.">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Grain overlay -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- ===== NAV ===== -->
     <nav id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">B & A</div>
+        <a href="#home" class="nav-logo">A <span>&amp;</span> B</a>
+        <div class="nav-desktop">
             <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#our-story">Our Story</a></li>
-                <li><a href="#travel-stay">Travel & Stay</a></li>
+                <li><a href="#story">Our Story</a></li>
+                <li><a href="#details">Details</a></li>
+                <li><a href="#travel">Travel</a></li>
                 <li><a href="#registry">Registry</a></li>
+                <li><a href="#faq">FAQ</a></li>
             </ul>
-            <div class="mobile-menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <button class="btn-rsvp-nav" data-open-rsvp>RSVP</button>
         </div>
+        <button class="nav-burger" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Mobile menu overlay -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+        <button class="mobile-menu-close" aria-label="Close menu">&times;</button>
+        <a href="#story">Our Story</a>
+        <a href="#details">Details</a>
+        <a href="#travel">Travel</a>
+        <a href="#registry">Registry</a>
+        <a href="#faq">FAQ</a>
+        <button class="btn-rsvp-nav mobile-rsvp" data-open-rsvp>RSVP</button>
+    </div>
+
+    <!-- ===== HERO ===== -->
     <section id="home" class="hero">
-        <div class="hero-image">
-            <img src="photos/hero.JPEG" alt="Braden and Aaryn">
-            <div class="hero-overlay"></div>
-        </div>
+        <img id="hero-bg" class="hero-bg" src="img/hero.jpg" alt="Aaryn and Braden in a golden mountain field">
+        <div class="hero-overlay" aria-hidden="true"></div>
         <div class="hero-content">
-            <p class="hero-tagline">We're Getting Married!</p>
-            <h1 class="hero-names">Braden & Aaryn</h1>
-            <p class="hero-date">11.07.2026</p>
+            <p class="hero-eyebrow">The Blue Ridge Mountains &middot; West Jefferson, NC</p>
+            <h1 class="hero-names">
+                <span>Aaryn</span>
+                <span class="hero-names-second"><span class="amp">&amp;</span> Braden</span>
+            </h1>
+            <div class="hero-date">
+                <span class="rule"></span>
+                <p>November 7, 2026</p>
+                <span class="rule"></span>
+            </div>
+            <button class="btn btn-hero" data-open-rsvp>RSVP</button>
+        </div>
+        <div class="scroll-cue" aria-hidden="true">
+            <svg width="20" height="34" viewBox="0 0 20 34" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="18" height="32" rx="9"/><line x1="10" y1="7" x2="10" y2="13"/></svg>
         </div>
     </section>
 
-    <!-- Ceremony Details Section -->
-    <section id="ceremony" class="ceremony-section">
-        <div class="content-wrapper">
-            <div class="ceremony-image">
-                <img src="photos/ceremony.JPEG" alt="Ceremony Venue">
-            </div>
-            <div class="ceremony-details">
-                <h2>Ceremony</h2>
-                <div class="detail-item">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                    <p>2162 S Fork Farm Ln<br>West Jefferson, NC 28694</p>
-                </div>
-                <div class="detail-item">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <p>4:00 PM</p>
-                    <p style="font-size:0.85rem; color:var(--text-light); margin-top:0.4rem; font-style:italic;">Please arrive by 3:45 PM</p>
-                </div>
-                <div class="reception-note">
-                    <p>Reception to follow</p>
-                </div>
+    <!-- ===== COUNTDOWN ===== -->
+    <section class="countdown-band">
+        <div class="reveal countdown-inner">
+            <p class="eyebrow eyebrow-gold">Our Celebration</p>
+            <p class="countdown-past" id="countdown-past" hidden>Married at last.</p>
+            <div class="countdown-grid" id="countdown-grid">
+                <div class="countdown-cell"><div class="countdown-num" data-cd="days">—</div><div class="countdown-label">Days</div></div>
+                <div class="countdown-cell"><div class="countdown-num" data-cd="hours">—</div><div class="countdown-label">Hours</div></div>
+                <div class="countdown-cell"><div class="countdown-num" data-cd="minutes">—</div><div class="countdown-label">Minutes</div></div>
+                <div class="countdown-cell"><div class="countdown-num" data-cd="seconds">—</div><div class="countdown-label">Seconds</div></div>
             </div>
         </div>
     </section>
 
-    <!-- Attire Section -->
-    <section id="attire" class="attire-section">
-        <div class="content-wrapper-narrow">
-            <h2>Attire</h2>
-            <p class="attire-subtitle">Semi-formal</p>
-            <div class="attire-description">
-                <p>We kindly request semi-formal attire for our celebration. Appropriate options include cocktail dresses, dressy separates, suits, or dress shirts with slacks.</p>
+    <!-- ===== OUR STORY ===== -->
+    <section id="story" class="section story">
+        <div class="story-grid">
+            <div class="reveal story-image">
+                <img src="img/hero1.jpg" alt="Braden kissing Aaryn's forehead" loading="lazy" decoding="async">
+                <span class="story-image-rule" aria-hidden="true"></span>
+            </div>
+            <div class="reveal">
+                <p class="eyebrow eyebrow-brass">01 &mdash; Our Story</p>
+                <h2 class="section-title">How it all <em>started.</em></h2>
+                <div class="prose">
+                    <p>We met at Booneshine Brewing, where we both work. We were practically strangers, just coworkers passing by, until one shift beer changed everything. That conversation was the kind where everything else fades away, and we both just knew.</p>
+                    <p>Our love grew over travels to new places, late-night card games, and binge-watching our latest favorite shows. When it came time to propose, Braden chose our favorite spot: Grandfather Winery. It was intimate, special, and freezing cold, but perfect.</p>
+                    <p>Now we're writing the next chapter together, and we can't wait to celebrate it with all of you.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Our Story CTA Section -->
-    <section id="story-cta" class="story-cta-section">
-        <div class="story-cta-image">
-            <img src="photos/story-cta.jpeg" alt="Our Story">
-            <div class="story-cta-overlay"></div>
-        </div>
-        <div class="story-cta-content">
-            <h2>Our Love Story</h2>
-            <p>See how it all started</p>
-            <a href="#our-story" class="btn btn-primary">Read Our Story</a>
+    <!-- ===== INTERLUDE ===== -->
+    <section class="interlude">
+        <img id="interlude-bg" class="interlude-bg" src="img/hero3.jpg" alt="The Blue Ridge hills" loading="lazy" decoding="async">
+        <div class="interlude-overlay" aria-hidden="true"></div>
+        <p class="reveal interlude-quote">In the Blue Ridge, on the New River.</p>
+    </section>
+
+    <!-- ===== DETAILS ===== -->
+    <section id="details" class="section section-dark details">
+        <div class="container">
+            <div class="reveal section-head-center">
+                <p class="eyebrow eyebrow-gold">02 &mdash; The Day</p>
+                <h2 class="section-title">The Barn on New River</h2>
+                <p class="section-sub">2162 S Fork Farm Ln &middot; West Jefferson, NC 28694</p>
+            </div>
+            <div class="detail-cards">
+                <div class="reveal detail-card">
+                    <p class="eyebrow eyebrow-gold">Ceremony</p>
+                    <p class="detail-big">4:00 <span class="detail-unit">pm</span></p>
+                    <p class="detail-text">An outdoor ceremony in the heart of the Blue Ridge. Please arrive by <strong>3:45 pm</strong>. We'll begin promptly at four, and any guests arriving after will be warmly welcomed at the reception to follow.</p>
+                </div>
+                <div class="reveal detail-card">
+                    <p class="eyebrow eyebrow-gold">Reception</p>
+                    <p class="detail-big">To follow</p>
+                    <p class="detail-text">Dinner, drinks, and dancing in the barn directly after the ceremony. Stay late, we're celebrating all night.</p>
+                </div>
+                <div class="reveal detail-card">
+                    <p class="eyebrow eyebrow-gold">Attire</p>
+                    <p class="detail-big">Semi-<em>formal</em></p>
+                    <p class="detail-text">Cocktail dresses, dressy separates, suits, or a shirt and slacks. It's a mountain barn in November, so bring a layer and consider block heels for grass.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- RSVP Section -->
-    <section id="rsvp-cta" class="rsvp-cta-section">
+    <!-- ===== TRAVEL ===== -->
+    <section id="travel" class="section travel">
+        <div class="container">
+            <div class="reveal travel-head">
+                <p class="eyebrow eyebrow-brass">03 &mdash; Travel &amp; Stay</p>
+                <h2 class="section-title">Getting to the <em>mountains.</em></h2>
+                <p class="prose"><span>West Jefferson sits in the high country of northwestern North Carolina. The nearest major airports are Charlotte Douglas (CLT), roughly two hours away, and Raleigh-Durham (RDU) to the east.</span></p>
+            </div>
+            <div class="travel-cards">
+                <div class="reveal card">
+                    <p class="eyebrow eyebrow-brass">Hotel Room Block</p>
+                    <h3 class="card-title">To Be Announced</h3>
+                    <div class="kv">
+                        <div class="kv-row"><span class="kv-key">Address</span><span class="kv-val">1252 US Highway 421 S,<br>Boone, NC 28607</span></div>
+                        <div class="kv-row"><span class="kv-key">Group rate</span><span class="kv-val">TBD</span></div>
+                        <div class="kv-row"><span class="kv-key">Booking code</span><span class="kv-val">TBD</span></div>
+                        <div class="kv-row kv-last"><span class="kv-key">Reserve by</span><span class="kv-val">October 7th</span></div>
+                    </div>
+                    <p class="card-note">Hotel name and booking link coming soon.</p>
+                </div>
+                <div class="reveal card">
+                    <p class="eyebrow eyebrow-brass">In the Area</p>
+                    <h3 class="card-title">Make a weekend of it</h3>
+                    <div class="prose prose-sm">
+                        <p><strong>Downtown West Jefferson</strong> &mdash; murals, galleries, and the Ashe County Cheese factory, ten minutes from the venue.</p>
+                        <p><strong>The New River</strong> &mdash; one of the oldest rivers in the world, with easy paddling and riverside trails.</p>
+                        <p><strong>Boone</strong> is roughly 30 minutes away, with lively dining, shops, and mountain views (Blowing Rock sits just beyond).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== RSVP CTA ===== -->
+    <section id="rsvp" class="rsvp-cta">
         <div class="rsvp-cta-image">
-            <img src="photos/rsvp.jpeg" alt="RSVP">
-            <div class="rsvp-cta-overlay"></div>
+            <img src="img/rsvp.jpg" alt="Aaryn's engagement ring" loading="lazy" decoding="async">
         </div>
-        <div class="rsvp-cta-content">
-            <h2>We Hope You Can Make It</h2>
-            <p>Please let us know if you'll be joining us</p>
-            <button class="btn btn-primary" id="open-rsvp-btn">RSVP</button>
+        <div class="reveal rsvp-cta-content">
+            <p class="eyebrow eyebrow-gold">04 &mdash; RSVP</p>
+            <h2 class="section-title">We hope you can <em>make it.</em></h2>
+            <p class="section-sub section-sub-wide">Find your invitation by name and let us know if you'll be joining us. Kindly respond for everyone in your party.</p>
+            <div><button class="btn btn-brass" data-open-rsvp>RSVP</button></div>
         </div>
     </section>
 
-    <!-- RSVP Modal -->
-    <div id="rsvp-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-
-            <!-- Step 1: Name Lookup -->
-            <div id="rsvp-step-1" class="rsvp-step">
-                <h2>RSVP</h2>
-                <p class="rsvp-subtitle">Enter your name to find your invitation</p>
-                <div class="form-group">
-                    <label for="lookup-name">Your Name</label>
-                    <input type="text" id="lookup-name" placeholder="Start typing your name..." autocomplete="off">
+    <!-- ===== REGISTRY ===== -->
+    <section id="registry" class="section registry">
+        <div class="container">
+            <div class="reveal section-head-center section-head-narrow">
+                <p class="eyebrow eyebrow-brass">05 &mdash; Registry</p>
+                <h2 class="section-title">Your presence is the <em>gift.</em></h2>
+                <p class="prose">Truly, celebrating with you is all we want. But if you'd like to help us start this next chapter, here's where we're registered.</p>
+            </div>
+            <div class="registry-cards">
+                <a class="reveal card registry-card" href="https://www.target.com/gift-registry/gift/baney-registry" target="_blank" rel="noopener">
+                    <p class="eyebrow eyebrow-brass">Registry</p>
+                    <h3 class="card-title card-title-lg">Target</h3>
+                    <p class="card-body">Home goods and the everyday things we'll build our life around.</p>
+                    <span class="card-link">View Registry &rarr;</span>
+                </a>
+                <div class="reveal card registry-card registry-card-static">
+                    <p class="eyebrow eyebrow-brass">Registry</p>
+                    <h3 class="card-title card-title-lg">Amazon</h3>
+                    <p class="card-body">A few more odds and ends to help us feather the nest.</p>
+                    <span class="card-link card-link-muted">Link coming soon</span>
                 </div>
-                <div id="lookup-results"></div>
+                <div class="reveal card registry-honeymoon">
+                    <p class="eyebrow eyebrow-gold">Honeymoon Fund</p>
+                    <p class="honeymoon-text">Prefer to send us off on our adventure? Any amount toward the honeymoon means the world.</p>
+                    <img class="honeymoon-qr" src="img/honeyfund-qr.png" alt="Venmo QR code for @aaryn-nicole29">
+                    <p class="honeymoon-handle">@aaryn-nicole29</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq" class="section faq">
+        <div class="faq-inner">
+            <div class="reveal section-head-center">
+                <p class="eyebrow eyebrow-brass">06 &mdash; Questions</p>
+                <h2 class="section-title">Good to <em>know.</em></h2>
+            </div>
+            <div class="reveal faq-list" id="faq-list">
+                <!-- FAQ items injected by script.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p class="eyebrow eyebrow-gold footer-date">November 7, 2026</p>
+        <p class="footer-names">Aaryn <span class="amp">&amp;</span> Braden</p>
+        <p class="footer-tagline">Can't wait to celebrate with you. The Barn on New River, West Jefferson, NC</p>
+    </footer>
+
+    <!-- ===== RSVP MODAL ===== -->
+    <div id="rsvp-modal" class="modal" aria-hidden="true">
+        <div class="modal-card">
+            <button class="modal-close" aria-label="Close">&times;</button>
+
+            <!-- Step 1: Name lookup -->
+            <div id="rsvp-step-1" class="rsvp-step">
+                <p class="eyebrow eyebrow-brass">RSVP</p>
+                <h2 class="modal-title">Find your invitation</h2>
+                <p class="modal-sub">Enter your name to look up your party.</p>
+                <label class="field-label" for="lookup-name">Your Name</label>
+                <input type="text" id="lookup-name" class="field-input" placeholder="Start typing your name..." autocomplete="off">
+                <div id="lookup-results" class="lookup-results"></div>
             </div>
 
             <!-- Step 2: Party RSVP -->
-            <div id="rsvp-step-2" class="rsvp-step" style="display:none;">
-                <button class="rsvp-back-btn" id="rsvp-back-btn">&#8592; Back</button>
-                <h2 id="party-name-heading"></h2>
-                <p class="rsvp-subtitle">Please fill in the details for each guest in your party</p>
-                <div id="guest-cards"></div>
-                <div class="rsvp-submitter-fields">
-                    <div class="form-group">
-                        <label for="rsvp-email">Your Email Address *</label>
-                        <input type="email" id="rsvp-email" placeholder="your@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="rsvp-message">Message for the Couple (optional)</label>
-                        <textarea id="rsvp-message" rows="3" placeholder="Share a note with us..."></textarea>
-                    </div>
+            <div id="rsvp-step-2" class="rsvp-step" hidden>
+                <button class="modal-back" id="rsvp-back-btn">&larr; Back</button>
+                <h2 class="modal-title" id="party-name-heading"></h2>
+                <p class="modal-sub">Let us know who's celebrating with us.</p>
+                <div id="guest-cards" class="guest-cards"></div>
+                <div class="submitter-fields">
+                    <label class="field-label" for="rsvp-email">Your Email Address *</label>
+                    <input type="email" id="rsvp-email" class="field-input" placeholder="your@email.com">
+                    <label class="field-label" for="rsvp-message">Message for the Couple (optional)</label>
+                    <textarea id="rsvp-message" class="field-input" rows="3" placeholder="Share a note with us..."></textarea>
                 </div>
-                <button type="button" class="btn btn-primary rsvp-submit-btn" id="rsvp-submit-btn">Submit RSVP</button>
-                <div id="rsvp-form-message" class="form-message"></div>
+                <div id="rsvp-form-message" class="form-message" hidden></div>
+                <button class="btn btn-brass btn-block" id="rsvp-submit-btn">Submit RSVP</button>
             </div>
 
             <!-- Step 3: Confirmation -->
-            <div id="rsvp-step-3" class="rsvp-step" style="display:none;">
-                <div class="rsvp-confirmation">
-                    <div class="rsvp-confirmation-icon">&#10003;</div>
-                    <h2>You're All Set!</h2>
-                    <p id="rsvp-confirmation-msg"></p>
+            <div id="rsvp-step-3" class="rsvp-step" hidden>
+                <div class="confirmation">
+                    <div class="confirmation-icon">&#10003;</div>
+                    <h2 class="modal-title">You're all set</h2>
+                    <p class="modal-sub" id="rsvp-confirmation-msg"></p>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Our Story Section -->
-    <section id="our-story" class="our-story-section">
-        <div class="content-wrapper-narrow">
-            <h2>Our Story</h2>
-            <div class="story-content">
-                <p>Every love story is special, but ours is our favorite.</p>
-                <p>We met at Booneshine Brewing, where we both work. We were practically strangers just coworkers passing by until one shift beer changed everything. That conversation was the kind where everything else fades away, and we both just knew.</p>
-                <p>Our love grew over travels to new places, late-night card games, and binge-watching our latest favorite shows. When it came time to propose, Braden chose our favorite spot: Grandfather Winery. It was intimate, special, and freezing cold, but perfect.</p>
-                <p>Now we're writing the next chapter together, and we can't wait to celebrate with all of you.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Travel & Stay Section -->
-    <section id="travel-stay" class="travel-stay-section">
-        <div class="content-wrapper-narrow">
-            <h2>Travel & Stay</h2>
-            <div class="coming-soon">
-                <svg class="icon-large" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-                <p>Details coming soon</p>
-                <p class="subtext">We're currently finalizing hotel blocks and travel information. Check back soon!</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Registry Section -->
-    <section id="registry" class="registry-section">
-        <div class="content-wrapper-narrow">
-            <h2>Registry</h2>
-            <div class="registry-content">
-                <p>Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, we've registered at the following locations:</p>
-                <div class="registry-links">
-                    <a href="https://www.target.com/gift-registry/gift/baney-registry" class="btn btn-secondary" target="_blank" rel="noopener">Target Registry</a>
-                    <!-- <a href="#" class="btn btn-secondary" target="_blank" rel="noopener">Amazon Registry</a> -->
-                </div>
-                <div class="venmo-card">
-                    <p class="venmo-label">If you'd like to contribute toward our honeymoon instead, we'd be so grateful for any amount sent via Venmo.</p>
-                    <img src="photos/Honeyfund-QR.png" alt="Venmo QR code for @aaryn-nicole29" class="venmo-qr">
-                    <p class="venmo-handle">@aaryn-nicole29</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p class="footer-names">Braden & Aaryn</p>
-            <p class="footer-date">November 7, 2026</p>
-            <p class="footer-tagline">Can't wait to celebrate with you!</p>
-        </div>
-    </footer>
 
     <script src="script.js"></script>
 </body>

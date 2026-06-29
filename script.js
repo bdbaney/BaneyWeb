@@ -1,106 +1,221 @@
-// ===== SMOOTH SCROLLING =====
+// ============================================================
+//  Aaryn & Braden — Wedding Site
+// ============================================================
+
+const prefersReduced = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---- Utility ----
+function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str == null ? '' : str;
+    return d.innerHTML;
+}
+
+// ============================================================
+//  NAV — scroll state, smooth scroll, mobile menu
+// ============================================================
+const navbar = document.getElementById('navbar');
+const mobileMenu = document.getElementById('mobile-menu');
+const burger = document.querySelector('.nav-burger');
+
+function applyNavState() {
+    if (window.scrollY > 80) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+}
+
+function openMobileMenu() {
+    mobileMenu.classList.add('open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    burger.setAttribute('aria-expanded', 'true');
+}
+function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    burger.setAttribute('aria-expanded', 'false');
+}
+
+burger.addEventListener('click', () => {
+    if (mobileMenu.classList.contains('open')) closeMobileMenu();
+    else openMobileMenu();
+});
+document.querySelector('.mobile-menu-close').addEventListener('click', closeMobileMenu);
+
+// Smooth scroll for in-page anchors (and close mobile menu)
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+        const id = this.getAttribute('href').slice(1);
+        const target = id ? document.getElementById(id) : null;
+        if (!target) return;
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const navHeight = document.getElementById('navbar').offsetHeight;
-            window.scrollTo({ top: target.offsetTop - navHeight, behavior: 'smooth' });
-        }
+        closeMobileMenu();
+        const y = target.getBoundingClientRect().top + window.scrollY - 64;
+        window.scrollTo({ top: y, behavior: prefersReduced ? 'auto' : 'smooth' });
     });
 });
 
-// ===== NAVBAR SCROLL EFFECT =====
-window.addEventListener('scroll', function () {
-    const navbar = document.getElementById('navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.15)';
-    } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+// ============================================================
+//  PARALLAX (hero + interlude) — rAF-throttled
+// ============================================================
+const heroBg = document.getElementById('hero-bg');
+const interludeBg = document.getElementById('interlude-bg');
+let ticking = false;
+
+function onScroll() {
+    applyNavState();
+    if (prefersReduced) return;
+    const y = window.scrollY || window.pageYOffset;
+    if (heroBg) heroBg.style.transform = 'translateY(' + (y * 0.22) + 'px)';
+    if (interludeBg) {
+        const r = interludeBg.getBoundingClientRect();
+        const off = (r.top + r.height / 2 - window.innerHeight / 2) * -0.08;
+        interludeBg.style.transform = 'translateY(' + off + 'px)';
     }
-});
-
-// ===== MOBILE MENU =====
-const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-const navMenu = document.querySelector('.nav-menu');
-mobileMenuToggle.addEventListener('click', function () {
-    navMenu.classList.toggle('active');
-});
-
-const mobileMenuStyle = document.createElement('style');
-mobileMenuStyle.textContent = `
-    @media (max-width: 768px) {
-        .nav-menu.active {
-            display: flex;
-            flex-direction: column;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-    }
-`;
-document.head.appendChild(mobileMenuStyle);
-
-// ===== INTERSECTION OBSERVER (fade-in) =====
-const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-document.querySelectorAll('section').forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(20px)';
-    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(section);
-});
-
-const heroSection = document.querySelector('.hero');
-if (heroSection) {
-    heroSection.style.opacity = '1';
-    heroSection.style.transform = 'translateY(0)';
 }
 
-// ===== RSVP MODAL =====
+window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(() => { onScroll(); ticking = false; });
+}, { passive: true });
+onScroll();
 
-const modal      = document.getElementById('rsvp-modal');
-const openBtn    = document.getElementById('open-rsvp-btn');
-const closeBtn   = document.querySelector('.close');
+// ============================================================
+//  SCROLL REVEALS
+// ============================================================
+(function () {
+    const els = Array.from(document.querySelectorAll('.reveal'));
+    if (prefersReduced || !('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('in'));
+        return;
+    }
+    // Stagger reveals within the same section
+    const seen = new Map();
+    els.forEach(el => {
+        const sec = el.closest('section, footer') || el;
+        const n = seen.get(sec) || 0;
+        seen.set(sec, n + 1);
+        el.style.transitionDelay = Math.min(n * 0.09, 0.27) + 's';
+    });
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(el => io.observe(el));
+})();
 
-// State
-let currentParty   = null;   // { partyName, guests: [{id, name, isPrimary}] }
-let partyResults   = [];     // array of party objects from last lookup
-let lookupTimer    = null;
+// ============================================================
+//  COUNTDOWN
+// ============================================================
+(function () {
+    const target = new Date('2026-11-07T16:00:00-05:00').getTime();
+    const grid = document.getElementById('countdown-grid');
+    const past = document.getElementById('countdown-past');
+    const cells = {
+        days: document.querySelector('[data-cd="days"]'),
+        hours: document.querySelector('[data-cd="hours"]'),
+        minutes: document.querySelector('[data-cd="minutes"]'),
+        seconds: document.querySelector('[data-cd="seconds"]'),
+    };
+    const pad = (n) => String(n).padStart(2, '0');
 
-// ---- Open / Close ----
+    function tick() {
+        const diff = target - Date.now();
+        if (diff <= 0) {
+            if (grid) grid.hidden = true;
+            if (past) past.hidden = false;
+            return false;
+        }
+        cells.days.textContent = String(Math.floor(diff / 86400000));
+        cells.hours.textContent = pad(Math.floor(diff / 3600000) % 24);
+        cells.minutes.textContent = pad(Math.floor(diff / 60000) % 60);
+        cells.seconds.textContent = pad(Math.floor(diff / 1000) % 60);
+        return true;
+    }
 
-openBtn.addEventListener('click', () => {
+    if (tick()) {
+        const timer = setInterval(() => { if (!tick()) clearInterval(timer); }, 1000);
+    }
+})();
+
+// ============================================================
+//  FAQ ACCORDION
+// ============================================================
+(function () {
+    const faqs = [
+        { q: 'Where exactly is the wedding?', a: 'The Barn on New River, 2162 S Fork Farm Ln, West Jefferson, NC 28694. It is a rustic barn venue in the Blue Ridge mountains, right on the New River, with both the ceremony and reception on-site.' },
+        { q: 'What time should I arrive?', a: 'The ceremony begins at 4:00 pm. Please plan to arrive by 3:45 pm so you can park, find a seat, and settle in before we begin.' },
+        { q: 'What should I wear?', a: 'Semi-formal attire. Think cocktail dresses, dressy separates, suits, or a shirt and slacks. It is an outdoor-and-barn setting in the mountains in November, so bring a warm layer, and consider block heels rather than stilettos for grass and gravel.' },
+        { q: 'Will it be indoors or outdoors?', a: 'The ceremony is planned outdoors, with the reception to follow inside the barn. We will keep an eye on the mountain forecast and have a comfortable backup plan if the weather turns.' },
+        { q: 'Where should we stay?', a: 'See the Travel & Stay section above for our hotel room block and ideas for making a weekend of it in West Jefferson, Boone, and Blowing Rock.' },
+        { q: 'Can I bring a guest or my kids?', a: 'Your invitation and RSVP will show exactly who is included in your party. If you see a "Guest" spot when you look up your name, you are welcome to bring a plus-one; just add their name when you RSVP.' },
+        { q: 'How do I RSVP?', a: 'Click any RSVP button, search your name to pull up your party, and respond for each guest. Please reply as soon as you are able so we can finalize our headcount.' },
+    ];
+    const list = document.getElementById('faq-list');
+    if (!list) return;
+    list.innerHTML = faqs.map((f, i) => `
+        <div class="faq-item" data-faq="${i}">
+            <button class="faq-q" aria-expanded="false">
+                <span>${esc(f.q)}</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <p class="faq-a">${esc(f.a)}</p>
+        </div>
+    `).join('');
+
+    list.querySelectorAll('.faq-item').forEach(item => {
+        const btn = item.querySelector('.faq-q');
+        btn.addEventListener('click', () => {
+            const isOpen = item.classList.contains('open');
+            list.querySelectorAll('.faq-item.open').forEach(o => {
+                o.classList.remove('open');
+                o.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+            });
+            if (!isOpen) {
+                item.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+})();
+
+// ============================================================
+//  RSVP MODAL
+// ============================================================
+const modal = document.getElementById('rsvp-modal');
+const modalCard = modal.querySelector('.modal-card');
+
+let currentParty = null;   // { partyName, guests: [{id, name}] }
+let partyResults = [];     // last lookup results
+let lookupTimer = null;
+
+// ---- Open / close ----
+document.querySelectorAll('[data-open-rsvp]').forEach(btn => {
+    btn.addEventListener('click', openModal);
+});
+modal.querySelector('.modal-close').addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+});
+
+function openModal() {
     resetModal();
-    modal.style.display = 'block';
+    closeMobileMenu();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
-    document.getElementById('lookup-name').focus();
-});
-
-closeBtn.addEventListener('click', closeModal);
-
-window.addEventListener('click', e => {
-    if (e.target === modal) closeModal();
-});
-
-function closeModal() {
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
+    setTimeout(() => document.getElementById('lookup-name').focus(), 50);
 }
-
+function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
 function resetModal() {
     showStep(1);
     currentParty = null;
@@ -112,110 +227,103 @@ function resetModal() {
     document.getElementById('rsvp-message').value = '';
     clearFormMessage();
 }
-
 function showStep(n) {
     [1, 2, 3].forEach(i => {
-        document.getElementById(`rsvp-step-${i}`).style.display = i === n ? 'block' : 'none';
+        document.getElementById(`rsvp-step-${i}`).hidden = i !== n;
     });
-    // Scroll modal content to top on step change
-    const mc = document.querySelector('.modal-content');
-    if (mc) mc.scrollTop = 0;
+    if (modalCard) modalCard.scrollIntoView({ block: 'nearest' });
 }
-
 function clearFormMessage() {
     const el = document.getElementById('rsvp-form-message');
     el.className = 'form-message';
+    el.hidden = true;
     el.textContent = '';
 }
+function showFormError(msg) {
+    const el = document.getElementById('rsvp-form-message');
+    el.className = 'form-message error';
+    el.hidden = false;
+    el.textContent = msg;
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
 
-// ---- Step 1: Name lookup ----
-
-const lookupInput   = document.getElementById('lookup-name');
+// ---- Step 1: name lookup ----
+const lookupInput = document.getElementById('lookup-name');
 const lookupResults = document.getElementById('lookup-results');
 
 lookupInput.addEventListener('input', () => {
     clearTimeout(lookupTimer);
     const val = lookupInput.value.trim();
-    if (val.length < 2) {
-        lookupResults.innerHTML = '';
-        return;
-    }
+    if (val.length < 2) { lookupResults.innerHTML = ''; return; }
     lookupResults.innerHTML = '<p class="lookup-searching">Searching&hellip;</p>';
-    lookupTimer = setTimeout(() => doLookup(val), 300);
+    lookupTimer = setTimeout(() => doLookup(val), 320);
 });
 
 async function doLookup(name) {
     try {
-        const res  = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`);
+        const res = await fetch(`/api/rsvp?name=${encodeURIComponent(name)}`);
         const data = await res.json();
-
-        if (!data.success) {
-            lookupResults.innerHTML = `<p class="lookup-no-results">Search failed. Please try again.</p>`;
+        if (!data || !data.success) {
+            lookupResults.innerHTML = '<p class="lookup-no-results">Search failed. Please try again.</p>';
             return;
         }
-
-        partyResults = data.parties;
-
+        partyResults = data.parties || [];
         if (partyResults.length === 0) {
             lookupResults.innerHTML = `
                 <div class="lookup-no-results">
-                    <p>No invitation found for "<strong>${esc(name)}</strong>".</p>
-                    <p>Please contact us directly if you believe this is an error.</p>
+                    <p>We couldn't find an invitation under "<strong>${esc(name)}</strong>".</p>
+                    <p>Try a different spelling, or reach out to us directly.</p>
                 </div>`;
             return;
         }
-
-        lookupResults.innerHTML = partyResults.map((party, idx) => `
-            <div class="party-card" data-idx="${idx}">
+        lookupResults.innerHTML = `<div class="party-list">${partyResults.map((party, idx) => `
+            <button class="party-card" data-idx="${idx}">
                 <div class="party-card-name">${esc(party.partyName)}</div>
                 <div class="party-card-guests">
                     ${party.guests.map(g => `<span class="party-guest-chip">${esc(g.name)}</span>`).join('')}
                 </div>
-            </div>
-        `).join('');
+            </button>`).join('')}</div>`;
 
         lookupResults.querySelectorAll('.party-card').forEach(card => {
-            card.addEventListener('click', () => {
-                selectParty(partyResults[parseInt(card.dataset.idx)]);
-            });
+            card.addEventListener('click', () => selectParty(partyResults[parseInt(card.dataset.idx, 10)]));
         });
-
     } catch {
         lookupResults.innerHTML = '<p class="lookup-no-results">Search failed. Please try again.</p>';
     }
 }
 
-// Returns true when the invite-list name is a placeholder like "Satchel Moberg's Guest"
+// Returns true for placeholder slots like "Satchel Moberg's Guest"
 function isGuestSlot(name) {
-    return /guest$/i.test(name.trim());
+    return /guest$/i.test((name || '').trim());
 }
 
-// ---- Step 2: Party selected — build guest cards ----
-
+// ---- Step 2: build guest cards ----
 function selectParty(party) {
+    if (!party) return;
     currentParty = party;
     document.getElementById('party-name-heading').textContent = party.partyName;
 
     document.getElementById('guest-cards').innerHTML = party.guests.map((guest, idx) => `
         <div class="guest-card" data-idx="${idx}">
-            <span class="guest-card-name">${esc(guest.name)}</span>
-            <div class="attend-toggle">
-                <button type="button" class="attend-btn accept active" data-idx="${idx}" data-val="true">Accept</button>
-                <button type="button" class="attend-btn decline"       data-idx="${idx}" data-val="false">Decline</button>
+            <div class="guest-card-head">
+                <span class="guest-card-name">${esc(guest.name)}</span>
+                <div class="attend-toggle">
+                    <button type="button" class="attend-btn accept active" data-idx="${idx}" data-val="true">Accept</button>
+                    <button type="button" class="attend-btn decline" data-idx="${idx}" data-val="false">Decline</button>
+                </div>
             </div>
             ${isGuestSlot(guest.name) ? `
-            <div class="form-group guest-name-group">
-                <label>Guest Name</label>
-                <input type="text" class="guest-name-input" placeholder="Enter guest's name" data-idx="${idx}">
+            <div class="guest-field">
+                <label class="field-label">Guest Name</label>
+                <input type="text" class="field-input guest-name-input" placeholder="Enter guest's name" data-idx="${idx}">
             </div>` : ''}
-            <div class="form-group dietary-group">
-                <label>Dietary Restrictions</label>
-                <input type="text" class="dietary-input" placeholder="None" data-idx="${idx}">
+            <div class="guest-field">
+                <label class="field-label">Dietary Restrictions</label>
+                <input type="text" class="field-input dietary-input" placeholder="None" data-idx="${idx}">
             </div>
         </div>
     `).join('');
 
-    // Wire up toggle buttons
     document.querySelectorAll('.attend-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const idx = btn.dataset.idx;
@@ -224,40 +332,35 @@ function selectParty(party) {
         });
     });
 
+    clearFormMessage();
     showStep(2);
 }
 
-// Back button
 document.getElementById('rsvp-back-btn').addEventListener('click', () => {
+    clearFormMessage();
     showStep(1);
 });
 
-// ---- Step 3: Submit ----
-
+// ---- Step 3: submit ----
 document.getElementById('rsvp-submit-btn').addEventListener('click', async () => {
     clearFormMessage();
-
     if (!currentParty) return;
 
-    const email   = document.getElementById('rsvp-email').value.trim();
+    const email = document.getElementById('rsvp-email').value.trim();
     const message = document.getElementById('rsvp-message').value.trim();
-
-    if (!email) {
-        showFormError('Please enter your email address.');
-        return;
-    }
+    if (!email) { showFormError('Please enter your email address.'); return; }
 
     const guests = Array.from(document.querySelectorAll('.guest-card')).map(card => {
-        const idx           = parseInt(card.dataset.idx);
-        const activeBtn     = card.querySelector('.attend-btn.active');
-        const dietary       = card.querySelector('.dietary-input').value.trim();
-        const nameInput     = card.querySelector('.guest-name-input');
-        const resolvedName  = nameInput && nameInput.value.trim()
+        const idx = parseInt(card.dataset.idx, 10);
+        const activeBtn = card.querySelector('.attend-btn.active');
+        const dietary = card.querySelector('.dietary-input').value.trim();
+        const nameInput = card.querySelector('.guest-name-input');
+        const resolvedName = nameInput && nameInput.value.trim()
             ? nameInput.value.trim()
             : currentParty.guests[idx].name;
         return {
-            name:         resolvedName,
-            attending:    activeBtn ? activeBtn.dataset.val === 'true' : true,
+            name: resolvedName,
+            attending: activeBtn ? activeBtn.dataset.val === 'true' : true,
             dietary,
             inviteListId: currentParty.guests[idx].id,
         };
@@ -265,22 +368,22 @@ document.getElementById('rsvp-submit-btn').addEventListener('click', async () =>
 
     const submitBtn = document.getElementById('rsvp-submit-btn');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting\u2026';
+    submitBtn.textContent = 'Submitting…';
 
     try {
-        const res  = await fetch('/api/rsvp', {
+        const res = await fetch('/api/rsvp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ partyName: currentParty.partyName, email, message, guests }),
         });
         const data = await res.json();
-
-        if (data.success) {
-            document.getElementById('rsvp-confirmation-msg').textContent = data.message;
+        if (data && data.success) {
+            document.getElementById('rsvp-confirmation-msg').textContent =
+                data.message || "Thank you! We can't wait to celebrate with you!";
             showStep(3);
             setTimeout(closeModal, 6000);
         } else {
-            showFormError(data.message || 'An error occurred. Please try again.');
+            showFormError((data && data.message) || 'An error occurred. Please try again.');
         }
     } catch {
         showFormError('An error occurred. Please try again.');
@@ -289,20 +392,5 @@ document.getElementById('rsvp-submit-btn').addEventListener('click', async () =>
         submitBtn.textContent = 'Submit RSVP';
     }
 });
-
-function showFormError(msg) {
-    const el = document.getElementById('rsvp-form-message');
-    el.className = 'form-message error';
-    el.textContent = msg;
-    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-// ---- Utility ----
-
-function esc(str) {
-    const d = document.createElement('div');
-    d.textContent = str;
-    return d.innerHTML;
-}
 
 console.log('Wedding website loaded successfully!');
