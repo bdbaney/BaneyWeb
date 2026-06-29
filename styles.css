@@ -319,8 +319,8 @@ h1, h2, h3 { margin: 0; }
     letter-spacing: -.01em;
     text-shadow: 0 2px 26px rgba(0,0,0,.42);
 }
-.hero-names span { display: block; }
-.hero-names span:first-child { animation: rise 1s ease .2s both; }
+.hero-names > span { display: block; }
+.hero-names > span:first-child { animation: rise 1s ease .2s both; }
 .hero-names-second { font-style: italic; font-weight: 400; animation: rise 1s ease .38s both; }
 .hero-names-second .amp { color: var(--gold); font-style: normal; }
 .hero-date {
