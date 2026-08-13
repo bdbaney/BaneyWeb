@@ -1,4 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
+const { sendRsvpNotification } = require('./notify');
 
 const supabase = createClient(
     process.env.SUPABASE_URL,
@@ -123,6 +124,12 @@ async function submitRsvp(req, res) {
     }
 
     console.log(`RSVP submitted — party: "${partyName}", attending: ${attendingCount}/${guests.length}`);
+
+    // Awaited on purpose: a serverless function may be frozen the moment it
+    // responds, so a fire-and-forget send would often never leave. Failures are
+    // swallowed inside sendRsvpNotification so the guest still sees success.
+    await sendRsvpNotification({ partyName, email, message, guests });
+
     return res.json({ success: true, message: confirmMsg });
 }
 

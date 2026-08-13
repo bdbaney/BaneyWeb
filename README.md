@@ -155,6 +155,36 @@ Open the `rsvps.xlsx` file in Excel or Google Sheets to view all submissions. Th
 
 The file is automatically created in the project root directory when the first RSVP is submitted.
 
+### Email Notifications
+
+Each time a party submits an RSVP, an email summary is sent to whoever you list
+in `NOTIFY_TO`. The email shows the party name, who is and isn't attending, any
+dietary notes, and the guest's message. Replying goes straight to the guest.
+
+To turn it on:
+
+1. Create a free account at [resend.com](https://resend.com) and generate an API key.
+2. Set these environment variables — locally in `.env`, and in the Vercel
+   dashboard under **Settings → Environment Variables** for production:
+
+   ```
+   RESEND_API_KEY=re_your-key-here
+   NOTIFY_TO=you@example.com,partner@example.com
+   ```
+
+3. Redeploy so Vercel picks up the new variables.
+
+Notes:
+
+- Leave `RESEND_API_KEY` or `NOTIFY_TO` unset and notifications are simply
+  skipped — RSVPs still save normally.
+- The default sender is Resend's shared `onboarding@resend.dev`, which can
+  **only deliver to the email address that owns the Resend account**. To send to
+  anyone else, verify a domain in Resend and set
+  `NOTIFY_FROM="Wedding RSVP <rsvp@yourdomain.com>"`.
+- A notification failure never fails the guest's RSVP; the error is logged and
+  the guest still sees the confirmation message.
+
 ## Deployment
 
 ### Local Network Access
