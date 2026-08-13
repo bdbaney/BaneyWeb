@@ -13,13 +13,11 @@
 -- TABLE: invite_list
 -- Pre-populated by you with all invited guests.
 -- Guests are grouped into parties (e.g. "The Smith Family").
--- is_primary marks the main lookup person for the party.
 -- ============================================================
 CREATE TABLE IF NOT EXISTS invite_list (
     id          UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
     party_name  TEXT        NOT NULL,
     guest_name  TEXT        NOT NULL,
-    is_primary  BOOLEAN     NOT NULL DEFAULT false,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
@@ -90,12 +88,9 @@ CREATE POLICY "Allow anonymous INSERT on rsvps"
 -- ============================================================
 -- EXAMPLE DATA — uncomment to seed your invite list
 -- ============================================================
--- INSERT INTO invite_list (party_name, guest_name, is_primary) VALUES
---     ('The Baney Family',    'Braden Baney',   true),
---     ('The Baney Family',    'Mom Baney',       false),
---     ('The Baney Family',    'Dad Baney',       false),
---     ('The Smith Family',    'John Smith',      true),
---     ('The Smith Family',    'Jane Smith',      false),
---     ('The Johnson Party',   'Bob Johnson',     true),
---     ('The Johnson Party',   'Alice Johnson',   false),
---     ('The Johnson Party',   'Emma Johnson',    false);
+-- INSERT INTO invite_list (party_name, guest_name) VALUES
+--     ('The Smith Family',    'John Smith'),
+--     ('The Smith Family',    'Jane Smith'),
+--     ('The Johnson Party',   'Bob Johnson'),
+--     ('The Johnson Party',   'Alice Johnson'),
+--     ('The Johnson Party',   'Emma Johnson');

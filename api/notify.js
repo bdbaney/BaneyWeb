@@ -76,7 +76,11 @@ async function sendRsvpNotification({ partyName, email, message, guests }) {
         .filter(Boolean);
 
     if (!apiKey || to.length === 0) {
-        console.log('Notification skipped — RESEND_API_KEY or NOTIFY_TO not configured.');
+        // Name the missing variable — "one of these two" sends you hunting.
+        const missing = [];
+        if (!apiKey) missing.push('RESEND_API_KEY');
+        if (to.length === 0) missing.push('NOTIFY_TO');
+        console.log(`Notification skipped — ${missing.join(' and ')} not configured.`);
         return;
     }
 
