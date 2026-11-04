@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="theme-color" content="#1C2A43">
+    <title>The Weekend | A &amp; B</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,400;1,6..96,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="weekend.css">
+</head>
+<body>
+    <header class="wk-hero">
+        <svg class="wk-mountains" viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 90 L0 62 L48 30 L82 52 L130 14 L178 50 L214 34 L262 64 L300 26 L346 58 L376 42 L400 54 L400 90 Z" fill="currentColor" opacity=".18"/>
+            <path d="M0 90 L0 72 L60 48 L104 68 L156 40 L206 70 L250 52 L310 74 L360 56 L400 70 L400 90 Z" fill="currentColor" opacity=".32"/>
+        </svg>
+        <p class="wk-eyebrow">Wedding party only · Nov 6–8</p>
+        <h1 class="wk-title">A <span>&amp;</span> B<br><em>The Weekend</em></h1>
+        <p class="wk-sub">Where to be, when to be there, and what's next. Bookmark this one!</p>
+    </header>
+
+    <nav class="wk-days" aria-label="Days">
+        <div class="wk-days-inner" role="tablist">
+            <button role="tab" data-day="2026-11-06" aria-selected="false"><span>Fri</span><small>Nov 6</small></button>
+            <button role="tab" data-day="2026-11-07" aria-selected="false"><span>Sat</span><small>Nov 7 ♡</small></button>
+            <button role="tab" data-day="2026-11-08" aria-selected="false"><span>Sun</span><small>Nov 8</small></button>
+        </div>
+    </nav>
+
+    <div class="wk-now" id="now" hidden aria-live="polite"></div>
+
+    <p class="wk-weather"><span aria-hidden="true">🌧️</span> Mountain weather is unpredictable, so bring a rain jacket!</p>
+
+    <main id="day" class="wk-main"></main>
+
+    <section id="getting-around" class="wk-section" hidden></section>
+
+    <footer class="wk-foot">
+        <p><span aria-hidden="true">🌧️</span> Mountain weather is unpredictable, so bring a rain jacket!</p>
+        <p class="wk-foot-small">All times Eastern. Everything else (travel, hotels, registry) lives on <a href="/">the main site</a>.</p>
+        <p class="wk-foot-small" id="source"></p>
+    </footer>
+
+    <canvas id="confetti" aria-hidden="true"></canvas>
+
+    <script src="schedule.js"></script>
+    <script src="weekend.js"></script>
+</body>
+</html>
