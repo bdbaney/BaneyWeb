@@ -1,53 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="robots" content="noindex, nofollow, noarchive">
-    <meta name="googlebot" content="noindex, nofollow">
-    <meta name="theme-color" content="#1C2A43">
-    <title>The Weekend | A &amp; B</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,400;1,6..96,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="weekend.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="theme-color" content="#1C2A43">
+<title>The Weekend | A &amp; B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --cream: #F2F0E9; --card: #FBFAF4; --navy: #1C2A43; --navy-soft: #2C3A52;
+    --brass: #8A6F33; --gold: #C6A86C; --blush: #E8C9B9; --blush-soft: #F6E9E1;
+    --sage: #DCE3D3; --muted: #6E7686; --border: #DAD5C6;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--cream); color: var(--navy); font-family: 'Hanken Grotesk', system-ui, -apple-system, sans-serif; font-size: 16px; line-height: 1.45; }
+h1, h2, h3, h4, p { margin: 0; }
+a { color: var(--brass); }
+.serif { font-family: 'Bodoni Moda', Georgia, serif; font-weight: 500; }
+
+/* Hero */
+.hero { position: relative; background: var(--navy); color: var(--card); text-align: center; padding: calc(34px + env(safe-area-inset-top)) 20px 60px; overflow: hidden; }
+.hero svg { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 70px; color: var(--gold); }
+.eyebrow { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.hero h1 { font-size: 40px; line-height: 1.05; margin-top: 10px; }
+.hero h1 span { color: var(--gold); font-style: italic; }
+.hero h1 em { font-style: italic; font-weight: 400; font-size: .72em; }
+.hero p.sub { margin: 12px auto 0; max-width: 300px; font-size: 14px; opacity: .85; position: relative; }
+
+/* Day jump links */
+.days { position: sticky; top: 0; z-index: 10; background: rgba(242,240,233,.95); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 10px 16px; }
+.days div { display: flex; gap: 8px; max-width: 640px; margin: 0 auto; }
+.days a { flex: 1; border: 1.5px solid var(--border); background: var(--card); border-radius: 14px; padding: 7px 4px; text-decoration: none; color: var(--navy); text-align: center; }
+.days a b { display: block; font-size: 16px; }
+.days a small { font-size: 12px; color: var(--muted); }
+.days a.wed { background: var(--navy); border-color: var(--navy); color: var(--card); }
+.days a.wed small { color: var(--gold); }
+
+.wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+.weather { margin-top: 16px; padding: 10px 14px; background: var(--sage); border-radius: 12px; font-size: 14px; font-weight: 500; }
+
+/* Day sections */
+.day { padding-top: 30px; scroll-margin-top: 76px; }
+.day-date { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--brass); font-weight: 700; }
+.day h2 { font-size: 32px; line-height: 1.1; margin-top: 4px; }
+.dress { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; padding: 7px 12px; border-radius: 999px; background: var(--blush-soft); font-size: 15px; font-weight: 500; }
+.dress span { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--brass); }
+.callout { display: flex; gap: 12px; margin-top: 16px; padding: 14px 16px; border-radius: 16px; background: var(--blush-soft); border: 1px solid var(--blush); font-size: 15px; }
+.callout > span { font-size: 24px; line-height: 1; }
+.note { margin-top: 12px; font-size: 15px; color: var(--navy-soft); }
+
+/* Timeline */
+.block { margin-top: 22px; }
+.block h3 { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+.block h3::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+ol { list-style: none; margin: 0; padding: 0; position: relative; }
+ol::before { content: ''; position: absolute; left: 89px; top: 10px; bottom: 10px; width: 2px; background: repeating-linear-gradient(var(--gold) 0 4px, transparent 4px 9px); }
+li { display: flex; gap: 22px; padding: 10px 0; position: relative; }
+li::before { content: ''; position: absolute; left: 84px; top: 16px; width: 12px; height: 12px; border-radius: 50%; background: var(--cream); border: 2.5px solid var(--gold); }
+.t { flex: 0 0 76px; text-align: right; }
+.t b { display: block; font-size: 15px; white-space: nowrap; }
+.t small { display: block; font-size: 12px; color: var(--muted); line-height: 1.25; }
+.w { flex: 1; min-width: 0; padding-left: 10px; }
+.w h4 { font-size: 17px; font-weight: 600; line-height: 1.25; }
+.w p { font-size: 14px; color: var(--navy-soft); margin-top: 3px; }
+.who { display: inline-block; margin-top: 6px; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #EAE6DA; color: var(--navy-soft); }
+.who.b { background: var(--blush-soft); color: #8A4F3E; }
+.who.g { background: #DDE3EE; color: var(--navy); }
+li.key .w { background: var(--card); border: 1.5px solid var(--gold); border-radius: 12px; padding: 8px 12px; margin: -4px 0; }
+li.key::before { background: var(--gold); }
+li.sun .w { background: linear-gradient(120deg, #FBE3C8, #F6D3C6); border-radius: 12px; padding: 8px 12px; margin: -4px 0; }
+
+/* Places */
+.places { margin-top: 26px; display: grid; gap: 12px; }
+.place { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
+.place .k { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); font-weight: 700; }
+.place h4 { font-family: 'Bodoni Moda', Georgia, serif; font-weight: 500; font-size: 21px; margin-top: 3px; }
+.place p { font-size: 15px; margin-top: 4px; }
+.place p.n { font-size: 14px; color: var(--navy-soft); margin-top: 8px; }
+.maps { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 12px; background: var(--navy); color: var(--card); text-decoration: none; font-size: 15px; font-weight: 600; border: 1.5px solid var(--navy); }
+.btn.ghost { background: transparent; color: var(--navy); }
+
+footer { max-width: 640px; margin: 34px auto 0; padding: 22px 16px calc(30px + env(safe-area-inset-bottom)); text-align: center; border-top: 1px solid var(--border); font-size: 15px; font-weight: 500; }
+footer p + p { font-size: 13px; color: var(--muted); font-weight: 400; margin-top: 6px; }
+
+@media (min-width: 700px) {
+    .hero { padding: 54px 20px 84px; }
+    .hero h1 { font-size: 56px; }
+    .hero svg { height: 100px; }
+    .places { grid-template-columns: 1fr 1fr; }
+}
+</style>
 </head>
 <body>
-    <header class="wk-hero">
-        <svg class="wk-mountains" viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M0 90 L0 62 L48 30 L82 52 L130 14 L178 50 L214 34 L262 64 L300 26 L346 58 L376 42 L400 54 L400 90 Z" fill="currentColor" opacity=".18"/>
-            <path d="M0 90 L0 72 L60 48 L104 68 L156 40 L206 70 L250 52 L310 74 L360 56 L400 70 L400 90 Z" fill="currentColor" opacity=".32"/>
-        </svg>
-        <p class="wk-eyebrow">Wedding party only · Nov 6–8</p>
-        <h1 class="wk-title">A <span>&amp;</span> B<br><em>The Weekend</em></h1>
-        <p class="wk-sub">Where to be, when to be there, and what's next. Bookmark this one!</p>
-    </header>
 
-    <nav class="wk-days" aria-label="Days">
-        <div class="wk-days-inner" role="tablist">
-            <button role="tab" data-day="2026-11-06" aria-selected="false"><span>Fri</span><small>Nov 6</small></button>
-            <button role="tab" data-day="2026-11-07" aria-selected="false"><span>Sat</span><small>Nov 7 ♡</small></button>
-            <button role="tab" data-day="2026-11-08" aria-selected="false"><span>Sun</span><small>Nov 8</small></button>
+<header class="hero">
+    <svg viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 90 L0 62 L48 30 L82 52 L130 14 L178 50 L214 34 L262 64 L300 26 L346 58 L376 42 L400 54 L400 90 Z" fill="currentColor" opacity=".18"/>
+        <path d="M0 90 L0 72 L60 48 L104 68 L156 40 L206 70 L250 52 L310 74 L360 56 L400 70 L400 90 Z" fill="currentColor" opacity=".32"/>
+    </svg>
+    <p class="eyebrow">Wedding party · Nov 6–8</p>
+    <h1 class="serif">A <span>&amp;</span> B<br><em>The Weekend</em></h1>
+    <p class="sub">Where to be and when to be there. Bookmark this one!</p>
+</header>
+
+<nav class="days" aria-label="Jump to a day">
+    <div>
+        <a href="#friday"><b>Fri</b><small>Nov 6</small></a>
+        <a href="#saturday" class="wed"><b>Sat</b><small>Nov 7 ♡</small></a>
+        <a href="#sunday"><b>Sun</b><small>Nov 8</small></a>
+    </div>
+</nav>
+
+<main class="wrap">
+    <p class="weather">🌧️ Mountain weather is unpredictable, so bring a rain jacket!</p>
+
+    <!-- ============ FRIDAY ============ -->
+    <section class="day" id="friday">
+        <p class="day-date">Friday, November 6</p>
+        <h2 class="serif">Rehearsal + Welcome Party</h2>
+        <p class="dress"><span>Dress code</span> Dress nice / business casual</p>
+
+        <div class="block">
+            <h3>At The Barn on New River</h3>
+            <ol>
+                <li><div class="t"><b>3:45 PM</b></div><div class="w"><h4>Arrival at The Barn</h4></div></li>
+                <li><div class="t"><b>4:00 PM</b><small>until 4:30 PM</small></div><div class="w"><h4>Rehearsal</h4></div></li>
+                <li><div class="t"><b>4:30 PM</b><small>until 5:30 PM</small></div><div class="w"><h4>Cocktail hour</h4></div></li>
+                <li><div class="t"><b>5:30 PM</b><small>until 6:30 PM</small></div><div class="w"><h4>Dinner</h4></div></li>
+            </ol>
         </div>
-    </nav>
 
-    <div class="wk-now" id="now" hidden aria-live="polite"></div>
+        <div class="block">
+            <h3>At Basil's</h3>
+            <ol>
+                <li><div class="t"><b>7:30 PM</b><small>until 10:00 PM</small></div><div class="w"><h4>Welcome Party at Basil's</h4><p>Invites went out, but this one's a relaxed hang. If friends hear about it and swing by, that's totally fine!</p></div></li>
+                <li><div class="t"><b>11:00 PM</b></div><div class="w"><h4>Head back to West Jefferson</h4></div></li>
+            </ol>
+        </div>
 
-    <p class="wk-weather"><span aria-hidden="true">🌧️</span> Mountain weather is unpredictable, so bring a rain jacket!</p>
+        <div class="places">
+            <div class="place">
+                <p class="k">Rehearsal + dinner</p>
+                <h4>The Barn on New River</h4>
+                <p>2162 S Fork Farm Ln, West Jefferson, NC 28694</p>
+                <div class="maps">
+                    <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=2162%20S%20Fork%20Farm%20Ln%2C%20West%20Jefferson%2C%20NC%2028694" target="_blank" rel="noopener">Google Maps</a>
+                    <a class="btn ghost" href="https://maps.apple.com/?daddr=2162%20S%20Fork%20Farm%20Ln%2C%20West%20Jefferson%2C%20NC%2028694" target="_blank" rel="noopener">Apple Maps</a>
+                </div>
+            </div>
+            <div class="place">
+                <p class="k">Welcome party</p>
+                <h4>Basil's Fresh Pasta &amp; Deli</h4>
+                <p>246 Wilson Drive, Suite K, Boone, NC 28607</p>
+                <div class="maps">
+                    <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=246%20Wilson%20Drive%20Suite%20K%2C%20Boone%2C%20NC%2028607" target="_blank" rel="noopener">Google Maps</a>
+                    <a class="btn ghost" href="https://maps.apple.com/?daddr=246%20Wilson%20Drive%20Suite%20K%2C%20Boone%2C%20NC%2028607" target="_blank" rel="noopener">Apple Maps</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <main id="day" class="wk-main"></main>
+    <!-- ============ SATURDAY ============ -->
+    <section class="day" id="saturday">
+        <p class="day-date">Saturday, November 7</p>
+        <h2 class="serif">Wedding Day ♡</h2>
+        <p class="dress"><span>Dress code</span> You know the drill 😉</p>
+        <p class="note">Everything happens at The Barn on New River. Everyone gets ready inside the barn, and <strong>The Summit</strong> is the first-look and portrait spot on the venue grounds.</p>
 
-    <section id="getting-around" class="wk-section" hidden></section>
+        <div class="block">
+            <h3>Morning + getting ready</h3>
+            <ol>
+                <li><div class="t"><b>7:00 AM</b></div><div class="w"><h4>Venue opens; hair and makeup begins</h4><p>Early entry</p><span class="who b">Bride + bridesmaids</span></div></li>
+                <li><div class="t"><b>10:00 AM</b></div><div class="w"><h4>Photography begins</h4><p>Detail shots and flat lays (venue, tables, details)</p><span class="who">Photographer</span></div></li>
+                <li><div class="t"><b>12:00 PM</b></div><div class="w"><h4>Groom and groomsmen arrive</h4><span class="who g">Groom + groomsmen</span></div></li>
+                <li><div class="t"><b>12:30 PM</b></div><div class="w"><h4>"Getting ready" portraits</h4><span class="who g">Groom + groomsmen</span></div></li>
+                <li><div class="t"><b>1:00 PM</b></div><div class="w"><h4>Hair and makeup complete; pajama photo</h4><span class="who b">Bride + bridesmaids</span></div></li>
+                <li><div class="t"><b>1:20 PM</b></div><div class="w"><h4>Bride steps into the dress</h4><span class="who b">Bride</span></div></li>
+                <li><div class="t"><b>1:40 PM</b></div><div class="w"><h4>First look with Father of the Bride</h4><span class="who b">Bride + FOB</span></div></li>
+            </ol>
+        </div>
 
-    <footer class="wk-foot">
-        <p><span aria-hidden="true">🌧️</span> Mountain weather is unpredictable, so bring a rain jacket!</p>
-        <p class="wk-foot-small">All times Eastern. Everything else (travel, hotels, registry) lives on <a href="/">the main site</a>.</p>
-        <p class="wk-foot-small" id="source"></p>
-    </footer>
+        <div class="block">
+            <h3>First look + portraits</h3>
+            <ol>
+                <li><div class="t"><b>1:50 PM</b></div><div class="w"><h4>Groom and photographer head to the Summit</h4><span class="who g">Groom</span></div></li>
+                <li><div class="t"><b>2:00 PM</b></div><div class="w"><h4>Bride to the Summit: first look + couple portraits</h4><span class="who">Bride + Groom</span></div></li>
+                <li class="key"><div class="t"><b>2:30 PM</b></div><div class="w"><h4>Full wedding party portraits</h4><p>Then bride + bridesmaids, and groom + groomsmen</p><span class="who">Whole wedding party</span></div></li>
+                <li><div class="t"><b>3:00 PM</b></div><div class="w"><h4>Family photos</h4><span class="who">Immediate family</span></div></li>
+            </ol>
+        </div>
 
-    <canvas id="confetti" aria-hidden="true"></canvas>
+        <div class="block">
+            <h3>Ceremony + cocktail hour</h3>
+            <ol>
+                <li><div class="t"><b>3:30 PM</b></div><div class="w"><h4>Prelude music begins</h4></div></li>
+                <li class="key"><div class="t"><b>4:00 PM</b></div><div class="w"><h4>Ceremony begins</h4><span class="who">Everyone</span></div></li>
+                <li><div class="t"><b>4:30 PM</b></div><div class="w"><h4>Cocktail hour begins</h4></div></li>
+                <li class="sun"><div class="t"><b>5:24 PM</b></div><div class="w"><h4>Estimated sunset 🌅</h4><p>Golden hour, so it's great light for photos</p></div></li>
+            </ol>
+        </div>
 
-    <script src="schedule.js"></script>
-    <script src="weekend.js"></script>
+        <div class="block">
+            <h3>Reception</h3>
+            <ol>
+                <li><div class="t"><b>5:25 PM</b></div><div class="w"><h4>Guests find their seats in the reception space</h4><p>Bride's dress gets bustled</p></div></li>
+                <li class="key"><div class="t"><b>5:35 PM</b></div><div class="w"><h4>Introductions</h4><p>Wedding Party → Maid of Honor + Best Man → The Newlyweds</p><span class="who">Wedding party · MOH + Best Man</span></div></li>
+                <li><div class="t"><b>5:40 PM</b></div><div class="w"><h4>Welcome + blessing</h4><p>Welcome by the Bride's parents; blessing by the Father of the Groom (David)</p></div></li>
+                <li><div class="t"><b>5:45 PM</b></div><div class="w"><h4>Dinner served</h4><p>DJ releases tables to the buffet</p></div></li>
+                <li><div class="t"><b>6:30 PM</b></div><div class="w"><h4>Cake cutting</h4></div></li>
+                <li class="key"><div class="t"><b>6:35 PM</b></div><div class="w"><h4>Toasts</h4><p>Father of the Bride → Maid of Honor → Best Man → The Newlyweds</p><span class="who">MOH + Best Man</span></div></li>
+                <li><div class="t"><b>6:55 PM</b></div><div class="w"><h4>Dances</h4><p>First Dance → Father/Daughter Dance (bouquet dedication follows) → Mother/Son Dance</p></div></li>
+                <li><div class="t"><b>8:15 PM</b></div><div class="w"><h4>Open dance floor; lights down 🪩</h4></div></li>
+                <li><div class="t"><b>9:15 PM</b></div><div class="w"><h4>Last call at the bar</h4></div></li>
+                <li><div class="t"><b>9:30 PM</b></div><div class="w"><h4>Bar closes</h4></div></li>
+                <li class="key"><div class="t"><b>10:00 PM</b></div><div class="w"><h4>Sparkler exit ✨</h4><p>Event ends</p><span class="who">Everyone</span></div></li>
+            </ol>
+        </div>
+
+        <div class="places">
+            <div class="place">
+                <p class="k">Wedding day</p>
+                <h4>The Barn on New River</h4>
+                <p>2162 S Fork Farm Ln, West Jefferson, NC 28694</p>
+                <div class="maps">
+                    <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=2162%20S%20Fork%20Farm%20Ln%2C%20West%20Jefferson%2C%20NC%2028694" target="_blank" rel="noopener">Google Maps</a>
+                    <a class="btn ghost" href="https://maps.apple.com/?daddr=2162%20S%20Fork%20Farm%20Ln%2C%20West%20Jefferson%2C%20NC%2028694" target="_blank" rel="noopener">Apple Maps</a>
+                </div>
+            </div>
+            <div class="place">
+                <p class="k">Men's house</p>
+                <h4>S Fork Farm Ln</h4>
+                <p class="n">No street number for this one. Text the groom for directions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SUNDAY ============ -->
+    <section class="day" id="sunday">
+        <p class="day-date">Sunday, November 8</p>
+        <h2 class="serif">Farewell at Booneshine</h2>
+        <p class="dress"><span>Dress code</span> Whatever's comfy</p>
+        <div class="callout"><span aria-hidden="true">🍻</span><p><strong>Where it all started.</strong> Booneshine is where we met, so come raise a glass where our story began, and say goodbye before you head home.</p></div>
+
+        <div class="block">
+            <ol>
+                <li><div class="t"><b>11:30 AM</b><small>until 2:00 PM</small></div><div class="w"><h4>Farewell hang</h4><p>Come say goodbye to us! Casual come-and-go, so stop by whenever.</p><span class="who">Everyone</span></div></li>
+            </ol>
+        </div>
+
+        <div class="places">
+            <div class="place">
+                <p class="k">Farewell hang</p>
+                <h4>Booneshine Brewing Company</h4>
+                <p>465 Industrial Park Drive, Boone, NC 28607</p>
+                <div class="maps">
+                    <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=465%20Industrial%20Park%20Drive%2C%20Boone%2C%20NC%2028607" target="_blank" rel="noopener">Google Maps</a>
+                    <a class="btn ghost" href="https://maps.apple.com/?daddr=465%20Industrial%20Park%20Drive%2C%20Boone%2C%20NC%2028607" target="_blank" rel="noopener">Apple Maps</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>🌧️ Mountain weather is unpredictable, so bring a rain jacket!</p>
+    <p>All times Eastern. Travel, hotels and registry are on <a href="/">the main site</a>.</p>
+</footer>
+
 </body>
 </html>

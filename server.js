@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { lookupGuest, submitRsvp } = require('./api/rsvp');
-const schedule = require('./api/schedule');
 
 const app = express();
 const PORT = 3000;
@@ -14,7 +13,6 @@ app.use(express.static(__dirname));
 
 app.get('/api/rsvp',  lookupGuest);
 app.post('/api/rsvp', submitRsvp);
-app.get('/api/schedule', schedule);
 
 app.listen(PORT, () => {
     console.log(`Wedding website running at http://localhost:${PORT}`);
